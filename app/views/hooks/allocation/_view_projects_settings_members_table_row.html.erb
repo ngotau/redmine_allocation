@@ -1,0 +1,64 @@
+<%
+  if Redmine::VERSION::MAJOR > 1 or (Redmine::VERSION::MAJOR == 1 and Redmine::VERSION::MINOR >= 4)
+    url = membership_path(member)
+    method = :put
+  else
+    url = {:controller => 'members', :action => 'edit', :id => member}
+    method = :post
+  end
+  #check role
+  customer_role_id = Setting.plugin_redmine_allocation['customer_role']
+  @customer_role = Role.new
+  @customer_role.id = customer_role_id
+%>
+
+<td>
+<%- unless member.roles.include?(@customer_role) -%>
+  <%= form_for :allocation,
+               :as => member,
+               :html => {:id => "allocation_form_#{member.id}"},
+               :url => url,
+               :remote => true,
+               :method => method do |f| %>
+    <%= f.select :allocation, 
+                 options_for_select(((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }),member[:allocation]), 
+                 {}, 
+                 :id => "member-#{member.id}-allocation", 
+                 :onchange => "$('#allocation_form_#{member.id}').submit();" %>
+  <% end %>
+<%- end -%>
+</td>
+<td>
+<%- unless member.roles.include?(@customer_role) -%>
+  <%= form_for :allocation,
+               :as => member,
+               :html => {:id => "from_date_form_#{member.id}"},
+               :url => url,
+               :remote => true,
+               :method => method do |f| %>
+    <%= f.text_field :from_date, 
+                     :size => 10, 
+                     :id => "member-#{member.id}-from_date", 
+                     :value => member[:from_date], 
+                     :onchange => "$('#from_date_form_#{member.id}').submit();" %>
+    <%= calendar_for_ext("member-#{member.id}-from_date",'-2:+1') %>
+  <% end %>
+<%- end -%>
+</td>
+<td>
+<%- unless member.roles.include?(@customer_role) -%>
+  <%= form_for :allocation,
+               :as => member,
+               :html => {:id => "to_date_form_#{member.id}"},
+               :url => url,
+               :remote => true,
+               :method => method do |f| %>
+    <%= f.text_field :to_date, 
+                     :size => 10, 
+                     :id => "member-#{member.id}-to_date", 
+                     :value => member[:to_date], 
+                     :onchange => "$('#to_date_form_#{member.id}').submit();"%>
+    <%= calendar_for_ext("member-#{member.id}-to_date","-2:+1") %>
+  <% end %>
+<%- end -%>
+</td>

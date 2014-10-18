@@ -1,0 +1,20 @@
+# English strings go here
+en:
+  field_allocation: Allocation
+  field_from_date: Start date
+  field_to_date: Finish date
+  label_customer_role: Customer role
+  label_customer_role_description: This role will be excluded allocation
+  label_which_role: Which role
+
+  allocation:
+    plugin_name: User Allocation
+    plugin_description: Helps to track and see user allocation.
+
+    label_all_allocation: All users | 12 months
+    label_allocation: Allocation
+    label_by_project: By project
+    label_by_user: By user
+    label_inside_allocation: In Company users | 12 months
+    label_outside_allocation: Customer users
+    label_person: Person

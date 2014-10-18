@@ -1,0 +1,9 @@
+<fieldset>
+  <legend><%=l :label_customer_role %></legend>
+    <p>
+      <label><%=l :label_which_role %></label>
+      <%= select_tag 'settings[customer_role]',
+          ('<option></option>' + options_from_collection_for_select(Role.all, :id, :name, @settings['customer_role'].to_i)).html_safe %>
+      (<%=l :label_customer_role_description %>)
+    </p>
+</fieldset>
